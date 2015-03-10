@@ -1,0 +1,27 @@
+From 061ed8010cfbd3ae5af4f0e38cd3638a28028050 Mon Sep 17 00:00:00 2001
+From: Geoff Levand <geoff@infradead.org>
+Date: Thu, 26 Feb 2015 16:21:05 -0800
+Subject: [PATCH 2/9] debugging: Add debug print
+
+---
+ kexec/kexec.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/kexec/kexec.c b/kexec/kexec.c
+index 4b5c32c..f28bfa5 100644
+--- a/kexec/kexec.c
++++ b/kexec/kexec.c
+@@ -346,6 +346,10 @@ void add_segment_phys_virt(struct kexec_info *info,
+ 			(void *)base, (void *)last);
+ 	}
+ 
++	dbgprintf("%s: %016lx - %016lx (%08lx) -> %016lx - %016lx (%08lx)\n",
++		__func__, (unsigned long)buf, (unsigned long)buf + bufsz, bufsz,
++		base, base + memsz, memsz);
++
+ 	size = (info->nr_segments + 1) * sizeof(info->segment[0]);
+ 	info->segment = xrealloc(info->segment, size);
+ 	info->segment[info->nr_segments].buf   = buf;
+-- 
+2.1.0
+

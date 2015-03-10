@@ -1,0 +1,29 @@
+From c98cd442a6111178d0312c5529911c5344a89e11 Mon Sep 17 00:00:00 2001
+From: Geoff Levand <geoff@infradead.org>
+Date: Thu, 26 Feb 2015 16:21:05 -0800
+Subject: [PATCH 5/9] purgatory: Fix digest section error
+
+Signed-off-by: Geoff Levand <geoff@infradead.org>
+---
+ purgatory/purgatory.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/purgatory/purgatory.c b/purgatory/purgatory.c
+index 3bbcc09..faee277 100644
+--- a/purgatory/purgatory.c
++++ b/purgatory/purgatory.c
+@@ -6,8 +6,9 @@
+ #include <string.h>
+ #include "../kexec/kexec-sha256.h"
+ 
+-struct sha256_region sha256_regions[SHA256_REGIONS] = {};
+-sha256_digest_t sha256_digest = { };
++struct sha256_region __attribute__ ((section (".data")))
++	sha256_regions[SHA256_REGIONS] = {};
++sha256_digest_t __attribute__ ((section (".data"))) sha256_digest = {};
+ 
+ int verify_sha256_digest(void)
+ {
+-- 
+2.1.0
+
