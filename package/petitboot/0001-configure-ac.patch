@@ -1,0 +1,14 @@
+GETTEXTIZE will add its own po/Makefile.in.  Remove the existing entry.
+
+diff --git a/configure.ac b/configure.ac
+index b540819..35aa4d9 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -267,7 +267,6 @@ AC_SUBST([pkgsysconfdir], ["${sysconfdir}/${package}"])
+ AC_CONFIG_HEADERS([config.h])
+ AC_CONFIG_FILES([
+ 	Makefile
+-	po/Makefile.in
+ ])
+ 
+ AC_OUTPUT

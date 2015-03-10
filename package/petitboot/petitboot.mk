@@ -4,26 +4,27 @@
 #
 ################################################################################
 
-PETITBOOT_VERSION = 509fca5ca2733a741521ae4332400d54d95ee073
+PETITBOOT_VERSION = e330e3f5adf78d3ba77217995a4bc3cd1fd16f4c
 PETITBOOT_SITE = git://ozlabs.org/~jk/petitboot
-PETITBOOT_DEPENDENCIES = ncurses udev host-bison host-flex
+PETITBOOT_DEPENDENCIES = ncurses udev host-bison host-flex host-localedef
 PETITBOOT_LICENSE = GPLv2
 PETITBOOT_LICENSE_FILES = COPYING
 
 PETITBOOT_AUTORECONF = YES
-PETITBOOT_AUTORECONF_OPT = -i
-PETITBOOT_CONF_OPT += --with-ncurses --without-twin-x11 --without-twin-fbdev \
+PETITBOOT_AUTORECONF_OPTS = -i
+PETITBOOT_GETTEXTIZE = YES
+PETITBOOT_CONF_OPTS += --with-ncurses --without-twin-x11 --without-twin-fbdev \
 	      --localstatedir=/var \
 	      HOST_PROG_KEXEC=/usr/sbin/kexec \
 	      HOST_PROG_SHUTDOWN=/usr/libexec/petitboot/bb-kexec-reboot \
 	      $(if $(BR2_PACKAGE_BUSYBOX),--with-tftp=busybox)
 
 ifdef PETITBOOT_DEBUG
-PETITBOOT_CONF_OPT += --enable-debug
+PETITBOOT_CONF_OPTS += --enable-debug
 endif
 
 ifeq ($(BR2_PACKAGE_NCURSES_WCHAR),y)
-PETITBOOT_CONF_OPT += --with-ncursesw MENU_LIB=-lmenuw FORM_LIB=-lformw
+PETITBOOT_CONF_OPTS += --with-ncursesw MENU_LIB=-lmenuw FORM_LIB=-lformw
 endif
 
 PETITBOOT_PRE_CONFIGURE_HOOKS += PETITBOOT_PRE_CONFIGURE_BOOTSTRAP
