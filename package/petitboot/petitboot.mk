@@ -46,6 +46,10 @@ define PETITBOOT_POST_INSTALL
 		$(TARGET_DIR)/usr/sbin/
 	$(INSTALL) -D -m 0755 package/petitboot/petitboot-console-ui.rules \
 		$(TARGET_DIR)/etc/udev/rules.d/
+
+	$(SED) 's/GENERIC_GETTY_PORT/$(call qstrip,$(BR2_TARGET_GENERIC_GETTY_PORT))/' \
+		$(TARGET_DIR)/etc/udev/rules.d/petitboot-console-ui.rules
+
 	$(INSTALL) -D -m 0755 package/petitboot/removable-event-poll.rules \
 		$(TARGET_DIR)/etc/udev/rules.d/
 
