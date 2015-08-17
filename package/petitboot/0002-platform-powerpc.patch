@@ -1,0 +1,16 @@
+diff --git a/discover/platform-powerpc.c b/discover/platform-powerpc.c
+index 7c34939..a8e7553 100644
+--- a/discover/platform-powerpc.c
++++ b/discover/platform-powerpc.c
+@@ -782,6 +782,11 @@ static bool probe(struct platform *p, void *ctx)
+ 	struct stat statbuf;
+ 	int rc;
+ 
++//FIXME: need better tests here
++#if !defined(__POWERPC__)
++	return false;
++#endif
++
+ 	/* we need a device tree */
+ 	rc = stat("/proc/device-tree", &statbuf);
+ 	if (rc)
