@@ -18,6 +18,10 @@ DROPBEAR_PROGRAMS += dbclient
 DROPBEAR_TARGET_BINS += dbclient ssh
 endif
 
+ifeq ($(BR2_PACKAGE_DROPBEAR_SERVER),y)
+DROPBEAR_TARGET_BINS += dropbear
+endif
+
 DROPBEAR_MAKE = \
 	$(MAKE) MULTI=1 SCPPROGRESS=1 \
 	PROGRAMS="$(DROPBEAR_PROGRAMS)"
@@ -51,6 +55,7 @@ define DROPBEAR_DISABLE_STANDALONE
 	$(SED) 's:\(#define NON_INETD_MODE\):/*\1 */:' $(@D)/options.h
 endef
 
+ifeq ($(BR2_PACKAGE_DROPBEAR_SERVER),y)
 define DROPBEAR_INSTALL_INIT_SYSTEMD
 	$(INSTALL) -D -m 644 package/dropbear/dropbear.service \
 		$(TARGET_DIR)/usr/lib/systemd/system/dropbear.service
@@ -66,6 +71,7 @@ define DROPBEAR_INSTALL_INIT_SYSV
 endef
 else
 DROPBEAR_POST_EXTRACT_HOOKS += DROPBEAR_DISABLE_STANDALONE
+endif
 endif
 
 ifeq ($(BR2_PACKAGE_DROPBEAR_DISABLE_REVERSEDNS),)
@@ -90,7 +96,7 @@ endif
 
 define DROPBEAR_INSTALL_TARGET_CMDS
 	$(INSTALL) -m 755 $(@D)/dropbearmulti $(TARGET_DIR)/usr/sbin/dropbear
-	for f in $(DROPBEAR_TARGET_BINS); do \
+	for f in $(filter-out dropbear,$(DROPBEAR_TARGET_BINS)); do \
 		ln -snf ../sbin/dropbear $(TARGET_DIR)/usr/bin/$$f ; \
 	done
 	ln -snf /var/run/dropbear $(TARGET_DIR)/etc/dropbear
