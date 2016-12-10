@@ -4,11 +4,12 @@
 #
 ################################################################################
 
-KEXEC_VERSION = 2.0.13
-KEXEC_SOURCE = kexec-tools-$(KEXEC_VERSION).tar.xz
-KEXEC_SITE = $(BR2_KERNEL_MIRROR)/linux/utils/kernel/kexec
+KEXEC_VERSION = 0a7fba8b145306af4909950f64f2797a08db68d4
+KEXEC_SITE = git://git.kernel.org/pub/scm/utils/kernel/kexec/kexec-tools.git
 KEXEC_LICENSE = GPLv2
 KEXEC_LICENSE_FILES = COPYING
+
+KEXEC_AUTORECONF = YES
 
 # Makefile expects $STRIP -o to work, so needed for BR2_STRIP_none
 KEXEC_MAKE_OPTS = STRIP="$(TARGET_CROSS)strip"
